@@ -3,15 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: theomart <theomart@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: theom <theom@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:29:38 by theomart          #+#    #+#             */
-/*   Updated: 2025/12/01 11:18:29 by theomart         ###   ########.fr       */
+/*   Updated: 2025/12/01 18:23:40 by theom            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+size_t	ft_strlen(const char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*ptr;
@@ -41,32 +50,23 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (ptr);
 }
 
-char	*ft_strchr(const char *s, int c)
+int		ft_strchr(const char *s, char c)
 {
 	int	i;
-
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == (char)c)
+		if (s[i] == c)
 		{
-			return ((char *)s + i);
+			write(1, "found\n", 6);
+			return (1);
 		}
 		i++;
+		write(1, "char checked\n", 14);
+		__builtin_printf("s[%d] = %c\n", i - 1, s[i]);
 	}
-	if ((char)c == '\0')
-		return ((char *)s + i);
+	write(1, "not found\n", 11);
 	return (0);
-}
-
-size_t	ft_strlen(const char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
 }
 
 char	*ft_strdup(const char *s)
