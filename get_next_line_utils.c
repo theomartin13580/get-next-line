@@ -3,35 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: theom <theom@student.42.fr>                +#+  +:+       +#+        */
+/*   By: theomart <theomart@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:29:38 by theomart          #+#    #+#             */
-/*   Updated: 2025/12/01 18:23:40 by theom            ###   ########.fr       */
+/*   Updated: 2025/12/03 20:26:43 by theomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *str)
+int	ft_strlen(const char *str)
 {
-	size_t	i;
+	int	i;
 
+	if (!str)
+		return (0);
 	i = 0;
 	while (str[i])
 		i++;
 	return (i);
 }
-char	*ft_strjoin(char const *s1, char const *s2)
+
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*ptr;
-	size_t	i;
-	size_t	j;
-	size_t	k;
+	int		i;
+	int		j;
 
+	if (!s1 && (!s2 || !s2[0]))
+		return (NULL);
 	i = 0;
 	j = ft_strlen(s1);
-	k = ft_strlen(s2);
-	ptr = malloc(sizeof(char) * (j + k) + 1);
+	ptr = malloc(sizeof(char) * (j + ft_strlen(s2)) + 1);
 	if (!ptr)
 		return (0);
 	while (i < j)
@@ -40,62 +43,41 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		i++;
 	}
 	i = 0;
-	while (i < k)
-	{
-		ptr[j] = s2[i];
-		i++;
-		j++;
-	}
+	while (i < ft_strlen(s2) && s2[i] != '\n')
+		ptr[j++] = s2[i++];
+	if (s2[i] == '\n')
+		ptr[j++] = '\n';
 	ptr[j] = '\0';
+	if (s1)
+		free(s1);
 	return (ptr);
 }
 
-int		ft_strchr(const char *s, char c)
+int	ft_strchr(const char *s, char c)
 {
 	int	i;
+
+	if (!s)
+		return (-1);
 	i = 0;
 	while (s[i])
 	{
 		if (s[i] == c)
-		{
-			write(1, "found\n", 6);
-			return (1);
-		}
+			return (i);
 		i++;
-		write(1, "char checked\n", 14);
-		__builtin_printf("s[%d] = %c\n", i - 1, s[i]);
 	}
-	write(1, "not found\n", 11);
-	return (0);
+	return (i);
 }
 
-char	*ft_strdup(const char *s)
+char	*ft_substr(char const *s, int start, int len)
 {
 	int		i;
-	char	*dup;
-
-	i = 0;
-	dup = malloc(sizeof(char) * ft_strlen(s) + 1);
-	if (!dup)
-		return (0);
-	while (s[i])
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	size_t i;
-	char *str;
+	char	*str;
 
 	if (!s)
 		return (0);
 	if (start > ft_strlen(s))
-		return (0);
+		return (ft_calloc(1, 1));
 	if (len > ft_strlen(s + start))
 		len = ft_strlen(s + start);
 	i = 0;
@@ -110,4 +92,26 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	str[i] = '\0';
 	return (str);
+}
+
+void	*ft_memmove(void *dest, const void *src, int n)
+{
+	int	i;
+	int	len;
+
+	len = n;
+	i = 0;
+	if (!dest && !src)
+		return (0);
+	while (i < len)
+	{
+		((unsigned char *)dest)[i] = ((unsigned char *)src)[i];
+		i++;
+	}
+	while (i < ft_strlen(dest))
+	{
+		((unsigned char *)dest)[i] = '\0';
+		i++;
+	}
+	return (dest);
 }
