@@ -6,7 +6,7 @@
 /*   By: theomart <theomart@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 13:31:54 by theomart          #+#    #+#             */
-/*   Updated: 2025/12/03 20:33:23 by theomart         ###   ########.fr       */
+/*   Updated: 2025/12/06 17:32:06 by theomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,19 @@ int	main(void)
 	char	*s;
 	int		i;
 
-	i = 1;
-	fd = open("multiple_line_with_nl", O_RDONLY);
+	i = 0;
+	fd = open("read_error.txt", O_RDONLY);
+	s = "";
+	// while (s)
+	// {
+	// 	s = get_next_line(fd);
+	// 	printf("'%s'", s);
+	// 	free(s);
+	// }
 	s = get_next_line(fd);
-	while (s != NULL)
-	{
-		__builtin_printf("TEST %d : %s", i, s);
-		if (s)
-			free(s);
-		s = get_next_line(fd);
-		i++;
-	}
-	__builtin_printf("TEST %d : %s", i, s);
-	if (s)
-		free(s);
+	// printf("'%s'", s);
+	free(s);
 	close(fd);
+	s = get_next_line(fd);
+	printf("'%s'", s);
 }

@@ -6,7 +6,7 @@
 /*   By: theomart <theomart@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:26:01 by theomart          #+#    #+#             */
-/*   Updated: 2025/12/03 20:15:12 by theomart         ###   ########.fr       */
+/*   Updated: 2025/12/05 16:04:44 by theomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,16 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
+
+int		ft_strchr(const char *s);
+char	*ft_strjoin(char *s1, const char *s2);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strdup(const char *s);
+size_t	ft_strlen(const char *str);
 char	*get_next_line(int fd);
-char	*ft_strjoin(char *s1, char *s2);
-int		ft_strchr(const char *s, char c);
-int		ft_strlen(const char *str);
-void	*ft_memmove(void *dest, const void *src, int n);
-void	*ft_calloc(int nmemb, int size);
-int		ft_endline(char *str);
-char	*ft_substr(char const *s, int start, int len);
+void	ft_move(char *buffer);
 
 #endif

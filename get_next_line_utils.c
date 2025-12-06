@@ -5,113 +5,104 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: theomart <theomart@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/28 11:29:38 by theomart          #+#    #+#             */
-/*   Updated: 2025/12/03 20:26:43 by theomart         ###   ########.fr       */
+/*   Created: 2025/12/04 13:36:44 by theomart          #+#    #+#             */
+/*   Updated: 2025/12/06 18:06:33 by theomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_strlen(const char *str)
+int	ft_strchr(const char *s)
 {
 	int	i;
 
-	if (!str)
-		return (0);
 	i = 0;
-	while (str[i])
+	if (!s)
+		return (0);
+	while (s[i])
+	{
+		if (s[i] == '\n')
+		{
+			return (i);
+		}
 		i++;
-	return (i);
+	}
+	return (-1);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, const char *s2)
 {
 	char	*ptr;
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
 
-	if (!s1 && (!s2 || !s2[0]))
-		return (NULL);
 	i = 0;
+	if (!s2)
+	{
+		free(s1);
+		return (NULL);
+	}
 	j = ft_strlen(s1);
 	ptr = malloc(sizeof(char) * (j + ft_strlen(s2)) + 1);
 	if (!ptr)
+	{
+		free(s1);
 		return (0);
+	}
 	while (i < j)
 	{
 		ptr[i] = s1[i];
 		i++;
 	}
 	i = 0;
-	while (i < ft_strlen(s2) && s2[i] != '\n')
+	while (i < ft_strlen(s2))
 		ptr[j++] = s2[i++];
-	if (s2[i] == '\n')
-		ptr[j++] = '\n';
 	ptr[j] = '\0';
-	if (s1)
-		free(s1);
+	free(s1);
 	return (ptr);
 }
 
-int	ft_strchr(const char *s, char c)
+void	ft_move(char *buffer)
 {
 	int	i;
+	int	j;
 
-	if (!s)
-		return (-1);
 	i = 0;
-	while (s[i])
+	j = ft_strchr(buffer) + 1;
+	while (buffer[i])
 	{
-		if (s[i] == c)
-			return (i);
+		buffer[i] = buffer[i + j];
 		i++;
 	}
-	return (i);
+	buffer[i] = '\0';
 }
 
-char	*ft_substr(char const *s, int start, int len)
+char	*ft_strdup(const char *s)
 {
 	int		i;
-	char	*str;
+	char	*dup;
 
-	if (!s)
-		return (0);
-	if (start > ft_strlen(s))
-		return (ft_calloc(1, 1));
-	if (len > ft_strlen(s + start))
-		len = ft_strlen(s + start);
 	i = 0;
-	str = malloc(sizeof(char) * (len + 1));
-	if (!str)
+	dup = malloc(sizeof(char) * ft_strlen(s) + 1);
+	if (!dup)
 		return (0);
-	while (i < len)
+	while (s[i])
 	{
-		str[i] = s[start];
-		start++;
+		dup[i] = s[i];
 		i++;
 	}
-	str[i] = '\0';
-	return (str);
+	dup[i] = '\0';
+	return (dup);
 }
 
-void	*ft_memmove(void *dest, const void *src, int n)
+size_t	ft_strlen(const char *str)
 {
-	int	i;
-	int	len;
+	size_t i;
 
-	len = n;
 	i = 0;
-	if (!dest && !src)
-		return (0);
-	while (i < len)
-	{
-		((unsigned char *)dest)[i] = ((unsigned char *)src)[i];
+	if (!str)
+		return (i);
+	while (str[i])
 		i++;
-	}
-	while (i < ft_strlen(dest))
-	{
-		((unsigned char *)dest)[i] = '\0';
-		i++;
-	}
-	return (dest);
+	return (i);
 }
